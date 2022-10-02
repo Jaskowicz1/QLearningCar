@@ -29,6 +29,7 @@ public:
 	sf::Clock clock;
 
 	float fastestTime = 0;
+	float lastTime = 0;
 
 	inline static bool showFPS;
 	inline static bool showStats;
@@ -44,6 +45,7 @@ private:
 	sf::Text timeText;
 	sf::Text checkpointText;
 	sf::Text fastestTimeText;
+	sf::Text lastTimeText;
 
 	sf::Texture trackTexture;
 	sf::Texture trackOutsideTexture;

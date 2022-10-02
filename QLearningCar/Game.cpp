@@ -4,6 +4,21 @@
 void Game::initVariables()
 {
 	console = new Console();
+
+	std::string timingText;
+
+	// Read from the text file
+	std::ifstream TimesFile("times.txt");
+
+	// Use a while loop together with the getline() function to read the file line by line
+	while (getline(TimesFile, timingText)) {
+		if (fastestTime == 0) {
+			fastestTime = std::stof(timingText);
+		}
+		else {
+			lastTime = std::stof(timingText);
+		}
+	}
 }
 
 void Game::initWindow()
@@ -93,13 +108,17 @@ Game::Game()
 	checkpointText.setFillColor(sf::Color::Red);
 	fastestTimeText.setFont(font);
 	fastestTimeText.setFillColor(sf::Color::Red);
+	lastTimeText.setFont(font);
+	lastTimeText.setFillColor(sf::Color::Red);
 
 	timeText.setCharacterSize(18);
 	checkpointText.setCharacterSize(18);
 	fastestTimeText.setCharacterSize(18);
+	lastTimeText.setCharacterSize(18);
 	timeText.setPosition(0, 40);
 	checkpointText.setPosition(0, 60);
 	fastestTimeText.setPosition(0, 80);
+	lastTimeText.setPosition(0, 100);
 }
 
 Game::~Game()
@@ -180,6 +199,14 @@ void Game::update()
 									fastestTime = clock.getElapsedTime().asSeconds();
 								}
 
+								lastTime = clock.getElapsedTime().asSeconds();
+
+								std::ofstream timesFile("times.txt");
+
+								timesFile << fastestTime << std::endl << lastTime << std::endl;
+
+								timesFile.close();
+
 								clock.restart();
 								CheckpointsReached.clear();
 							}
@@ -203,6 +230,7 @@ void Game::render()
 		this->window->draw(this->timeText);
 		this->window->draw(this->checkpointText);
 		this->window->draw(this->fastestTimeText);
+		this->window->draw(this->lastTimeText);
 	}
 
 	for (Wall* wall : walls) {
@@ -229,6 +257,7 @@ void Game::RenderStats()
 	timeText.setString("Time: " + std::to_string(clock.getElapsedTime().asSeconds()));
 	checkpointText.setString("Checkpoint " + std::to_string(CheckpointsReached.size()) + "/" + std::to_string(Checkpoints.size()));
 	fastestTimeText.setString("Fastest Time: " + std::to_string(fastestTime));
+	lastTimeText.setString("Last Time: " + std::to_string(lastTime));
 }
 
 void Game::ProcessMouse()
@@ -251,6 +280,8 @@ void Game::ProcessMouse()
 			wallsFile << wallPos1x << "," << wallPos1y << "," << wallPos2x << "," << wallPos2y << std::endl;
 
 			walls.push_back(new Wall(sf::Vector2f(wallPos1x, wallPos1y), sf::Vector2f(wallPos2x, wallPos2y)));
+
+			wallsFile.close();
 		}
 	}
 }
