@@ -3,6 +3,7 @@
 
 void Game::initVariables()
 {
+	console = new Console();
 }
 
 void Game::initWindow()
@@ -40,19 +41,17 @@ void Game::initWorld()
 
 void Game::initWalls()
 {
-	std::string myText;
+	std::string wallText;
 
 	// Read from the text file
-	std::ifstream MyReadFile("walls.txt");
+	std::ifstream WallFile("walls.txt");
 
 	// Use a while loop together with the getline() function to read the file line by line
-	while (getline(MyReadFile, myText)) {
+	while (getline(WallFile, wallText)) {
 		// Output the text from the file
 		std::vector<int> positions;
 
-		//std::cout << "Found a wall in the file... Loading wall.";
-
-		std::stringstream ss(myText);
+		std::stringstream ss(wallText);
 
 		for (int i; ss >> i;) {
 			positions.push_back(i);
@@ -61,9 +60,6 @@ void Game::initWalls()
 		}
 
 		walls.push_back(new Wall(sf::Vector2f(positions[0], positions[1]), sf::Vector2f(positions[2], positions[3])));
-
-		//walls.push_back(new Wall(sf::Vector2f(positions[0], positions[1]), sf::Vector2f(positions[2], positions[3]),
-		//	sf::Vector2f(positions[4], positions[5]), sf::Vector2f(positions[6], positions[7])));
 	}
 }
 
@@ -78,6 +74,7 @@ void Game::initCheckpoints()
 
 Game::Game()
 {
+	this->initVariables();
 	this->initWindow();
 	this->initWorld();
 	this->initCar();
@@ -120,6 +117,19 @@ void Game::pollEvents()
 			case sf::Event::KeyPressed:
 				if (ev.key.code == sf::Keyboard::Escape)
 					this->window->close();
+				else if (ev.key.code == sf::Keyboard::Tab)
+					console->showConsole = console->showConsole ? false : true; // toggles console.
+				break;
+			case sf::Event::TextEntered:
+				if (console->showConsole) {
+					if (std::isprint(ev.text.unicode))
+					{
+						console->UpdateConsoleText(ev.text.unicode);
+					}
+					else if (ev.text.unicode == 13) {
+						console->ExecuteCommand();
+					}
+				}
 				break;
 			case sf::Event::MouseButtonPressed:
 				this->ProcessMouse();
@@ -132,7 +142,12 @@ void Game::update()
 {
 	this->pollEvents();
 	this->RenderStats();
+
 	if (car) {
+		if (console && !console->showConsole) {
+			this->car->doMovement();
+		}
+
 		this->car->Update();
 
 		if (Collision::PixelPerfectTest(trackOutsideSprite, this->car->sprite)) {
@@ -174,17 +189,6 @@ void Game::update()
 			}
 		}
 	}
-
-		/*
-		for (Wall* wall : walls) {
-
-			if (Collision::PixelPerfectTest2(wall->rectangle, this->car->sprite)) {
-				// do stuff...
-				car->sprite.setPosition(car->startX, car->startY);
-				car->sprite.setRotation(0);
-			}
-		}
-		*/
 }
 
 void Game::render()
@@ -192,21 +196,30 @@ void Game::render()
 	this->window->clear();
 	this->window->draw(this->trackSprite);
 	this->window->draw(this->trackOutsideSprite);
-	this->window->draw(this->car->accelerationText);
-	this->window->draw(this->car->rotationText);
-	this->window->draw(this->timeText);
-	this->window->draw(this->checkpointText);
-	this->window->draw(this->fastestTimeText);
+
+	if (showStats) {
+		this->window->draw(this->car->accelerationText);
+		this->window->draw(this->car->rotationText);
+		this->window->draw(this->timeText);
+		this->window->draw(this->checkpointText);
+		this->window->draw(this->fastestTimeText);
+	}
 
 	for (Wall* wall : walls) {
 		this->window->draw(wall->rectangle);
 	}
-	/*
-	for (Checkpoint* checkpoint : Checkpoints) {
-		this->window->draw(checkpoint->checkpointSprite);
+	
+	if (showCheckpoints) {
+		for (Checkpoint* checkpoint : Checkpoints) {
+			this->window->draw(checkpoint->checkpointSprite);
+		}
 	}
-	*/
+	
 	this->window->draw(this->car->sprite);
+
+	if (console->showConsole) {
+		console->DisplayConsole(window);
+	}
 
 	this->window->display();
 }
@@ -220,45 +233,6 @@ void Game::RenderStats()
 
 void Game::ProcessMouse()
 {
-	/* OLD walls code.
-	if (SetWalls) {
-		if (x1 == -999999)
-			x1 = sf::Mouse::getPosition(*window).x;
-		else if (x2 == -999999)
-			x2 = sf::Mouse::getPosition(*window).x;
-		else if (x3 == -999999)
-			x3 = sf::Mouse::getPosition(*window).x;
-		else
-			x4 = sf::Mouse::getPosition(*window).x;
-
-		if (y1 == -999999)
-			y1 = sf::Mouse::getPosition(*window).y;
-		else if (y2 == -999999)
-			y2 = sf::Mouse::getPosition(*window).y;
-		else if (y3 == -999999)
-			y3 = sf::Mouse::getPosition(*window).y;
-		else
-			y4 = sf::Mouse::getPosition(*window).y;
-
-		std::cout << x1 << " " << y1 << " " << x2 << " " << y2 << " " << x3 << " " << y3 << " " << x4 << " " << y4 << " " << std::endl;
-
-		if (x1 != -999999 && y1 != -999999 && x2 != -999999 && y2 != -999999 && x3 != -999999 && y3 != -999999 && x4 != -999999 && y4 != -999999) {
-
-			std::ofstream wallsFile("walls.txt", std::ofstream::out | std::ofstream::app);
-
-			wallsFile << x1 << "," << y1 << "," << x2 << "," << y2 << "," << x3 << "," << y3 << "," << x4 << "," << y4 << std::endl;
-
-			walls.push_back(new Wall(sf::Vector2f(x1, y1), sf::Vector2f(x2, y2), sf::Vector2f(x3, y3), sf::Vector2f(x4, y4)));
-
-			wallsFile.close();
-
-			x1 = -999999, y1 = -999999, x2 = -999999, y2 = -999999, x3 = -999999, y3 = -999999, x4 = -999999, y4 = -999999;
-
-			std::cout << x1 << " " << y1 << " " << x2 << " " << y2 << " " << x3 << " " << y3 << " " << x4 << " " << y4 << " " << std::endl;
-		}
-	}
-	*/
-
 	if (SetWalls) {
 		if (wallPos1x == -999999) {
 			wallPos1x = sf::Mouse::getPosition(*window).x;
@@ -269,29 +243,14 @@ void Game::ProcessMouse()
 			wallPos2y = sf::Mouse::getPosition(*window).y;
 		}
 
-		//rectangle.setPosition(sf::Vector2f(wallPos1x, wallPos1y));
-		//rectangle.setFillColor(sf::Color::Cyan);
-
 		if (wallPos2y != -999999) {
 			float calc = sqrt((std::pow((wallPos2x - wallPos1x), 2) + std::pow((wallPos2y - wallPos1y), 2)));
-			//rectangle.setSize(sf::Vector2f(20, calc));
-			//rectangle.setRotation((atan2(wallPos2y - wallPos1y, wallPos2x - wallPos1x) * (180 / 3.1415926535)) - 90);
 
 			std::ofstream wallsFile("walls.txt", std::ofstream::out | std::ofstream::app);
 
 			wallsFile << wallPos1x << "," << wallPos1y << "," << wallPos2x << "," << wallPos2y << std::endl;
 
 			walls.push_back(new Wall(sf::Vector2f(wallPos1x, wallPos1y), sf::Vector2f(wallPos2x, wallPos2y)));
-
-			//wallsFile.close();
-
-			//wallPos1x = -999999;
-			//wallPos1y = -999999;
-			//wallPos2x = -999999;
-			//wallPos2y = -999999;
-		}
-		else {
-			//rectangle.setSize(sf::Vector2f(20, 20));
 		}
 	}
 }

@@ -138,6 +138,7 @@
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Checkpoint.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Wall.cpp" />
@@ -146,8 +147,13 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Checkpoint.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="ShowCheckpointsCommand.h" />
+    <ClInclude Include="ShowFPSCommand.h" />
+    <ClInclude Include="ShowStatsCommand.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

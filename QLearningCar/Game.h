@@ -8,6 +8,7 @@
 #include <sstream>
 #include <math.h>
 #include "Checkpoint.h"
+#include "Console.h"
 
 class Game {
 
@@ -28,6 +29,11 @@ public:
 	sf::Clock clock;
 
 	float fastestTime = 0;
+
+	inline static bool showFPS;
+	inline static bool showStats;
+	inline static bool showCheckpoints;
+	inline static bool showSensors;
 
 private:
 
@@ -64,4 +70,5 @@ private:
 
 	bool SetWalls = false;
 
+	Console* console;
 };

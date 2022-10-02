@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Commands">
+      <UniqueIdentifier>{2c215ff0-11a1-4699-bd9d-efbe5ab6fbf4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -31,6 +34,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Checkpoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -52,6 +58,21 @@
     </ClInclude>
     <ClInclude Include="Checkpoint.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowFPSCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowStatsCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowCheckpointsCommand.h">
+      <Filter>Header Files\Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

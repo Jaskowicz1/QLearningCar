@@ -9,7 +9,6 @@ Car::Car()
 
 void Car::Update()
 {
-    doMovement();
     RenderStats(); // This is purely for development purposes.
 }
 

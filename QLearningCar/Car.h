@@ -28,12 +28,12 @@ public:
 	float maxRotation = 2.f;
 	float minRotation = -2.f;
 
+	void doMovement();
+
 private:
 
 	void initRender();
 	void initText();
-
-	void doMovement();
 
 	float speed = 0.f;
 	float rotate = 0.f;
