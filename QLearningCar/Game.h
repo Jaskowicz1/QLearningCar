@@ -46,6 +46,9 @@ private:
 	sf::Text checkpointText;
 	sf::Text fastestTimeText;
 	sf::Text lastTimeText;
+	sf::Text fpsText;
+
+	sf::Clock fpsClock;
 
 	sf::Texture trackTexture;
 	sf::Texture trackOutsideTexture;
@@ -65,12 +68,16 @@ private:
 	void initWalls();
 	void initCheckpoints();
 
+	void updateFPS();
+
 	int wallPos1x = -999999;
 	int wallPos1y = -999999;
 	int wallPos2x = -999999;
 	int wallPos2y = -999999;
 
 	bool SetWalls = false;
+
+	float fpstime = 0.f;
 
 	Console* console;
 };

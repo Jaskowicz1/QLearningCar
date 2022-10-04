@@ -36,32 +36,33 @@ C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(77,52): warning C
           [
               T=float
           ]
-C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(173,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(173,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(276,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(282,89): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(178,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(178,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(285,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(291,89): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(282,78): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(291,78): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(282,53): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(291,53): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(282,42): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(291,42): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
+C:\Users\archi\source\repos\QLearningCar\QLearningCar\Game.cpp(305,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   Generating code
-  37 of 585 functions ( 6.3%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    31 functions had inline decision re-evaluated but remain unchanged
+  1 of 589 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   QLearningCar.vcxproj -> C:\Users\archi\source\repos\QLearningCar\x64\Release\QLearningCar.exe

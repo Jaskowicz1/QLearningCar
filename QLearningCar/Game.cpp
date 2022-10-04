@@ -110,15 +110,19 @@ Game::Game()
 	fastestTimeText.setFillColor(sf::Color::Red);
 	lastTimeText.setFont(font);
 	lastTimeText.setFillColor(sf::Color::Red);
+	fpsText.setFont(font);
+	fpsText.setFillColor(sf::Color::Green);
 
 	timeText.setCharacterSize(18);
 	checkpointText.setCharacterSize(18);
 	fastestTimeText.setCharacterSize(18);
 	lastTimeText.setCharacterSize(18);
+	fpsText.setCharacterSize(18);
 	timeText.setPosition(0, 40);
 	checkpointText.setPosition(0, 60);
 	fastestTimeText.setPosition(0, 80);
 	lastTimeText.setPosition(0, 100);
+	fpsText.setPosition(1160, 100);
 }
 
 Game::~Game()
@@ -159,6 +163,7 @@ void Game::pollEvents()
 
 void Game::update()
 {
+	this->updateFPS();
 	this->pollEvents();
 	this->RenderStats();
 
@@ -233,6 +238,10 @@ void Game::render()
 		this->window->draw(this->lastTimeText);
 	}
 
+	if (showFPS) {
+		this->window->draw(this->fpsText);
+	}
+
 	for (Wall* wall : walls) {
 		this->window->draw(wall->rectangle);
 	}
@@ -289,4 +298,25 @@ void Game::ProcessMouse()
 const bool Game::isRunning()
 {
 	return this->window->isOpen();
+}
+
+void Game::updateFPS() {
+	float fpsCounter = 1.f / fpsClock.restart().asSeconds();
+	fpsCounter = (int)(fpsCounter * 100 + .5);
+	fpsCounter = (float)(fpsCounter / 100);
+
+	if (fpsCounter > 40) {
+		fpsText.setFillColor(sf::Color::Green);
+	}
+	else if (fpsCounter <= 40 && fpsCounter > 20) {
+		fpsText.setFillColor(sf::Color::Yellow);
+	}
+	else {
+		fpsText.setFillColor(sf::Color::Red);
+	}
+
+	int substringNum = fpsCounter >= 100 ? 6 : 5;
+	
+
+	fpsText.setString("FPS: " + std::to_string(fpsCounter).substr(0, substringNum));
 }
