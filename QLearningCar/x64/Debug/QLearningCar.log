@@ -1,12 +1,12 @@
 ﻿  main.cpp
-C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Public\Car.h(44,19): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Car.cpp
+C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Car.cpp(36,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Car.cpp(36,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Console.cpp
 C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Console.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Public\Car.h(44,19): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Console.cpp(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Console.cpp(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
   Game.cpp
-C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Public\Car.h(44,19): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Game.cpp(77,108): warning C4244: 'argument': conversion from '_Ty' to 'T', possible loss of data
           with
           [
@@ -67,5 +67,8 @@ C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Game.cpp(295,4
               T=float
           ]
 C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Game.cpp(309,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Wall.cpp
+C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Wall.cpp(8,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\archi\Documents\GitHub\QLearningCar\QLearningCar\Private\Wall.cpp(10,97): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Generating Code...
   QLearningCar.vcxproj -> C:\Users\archi\Documents\GitHub\QLearningCar\x64\Debug\QLearningCar.exe
