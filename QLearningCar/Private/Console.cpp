@@ -1,7 +1,7 @@
-#include "Console.h"
-#include "ShowFPSCommand.h";
-#include "ShowStatsCommand.h";
-#include "ShowCheckpointsCommand.h";
+#include "../Public/Console.h"
+#include "../Public/ShowFPSCommand.h";
+#include "../Public/ShowStatsCommand.h";
+#include "../Public/ShowCheckpointsCommand.h";
 
 Console::Console()
 {
@@ -45,13 +45,13 @@ void Console::DisplayConsole(sf::RenderWindow* window)
 	window->draw(consoleText);
 }
 
-void Console::UpdateConsoleText(std::string letter)
+void Console::UpdateConsoleText(const std::string& letter)
 {
 	CurrentConsoleInput += letter;
 	consoleText.setString(CurrentConsoleInput);
 }
 
-void Console::UpdateConsoleText(sf::Uint32 letter)
+void Console::UpdateConsoleText(const sf::Uint32 letter)
 {
 	int letter2 = letter;
 	CurrentConsoleInput += static_cast<char>(letter2);
@@ -61,5 +61,15 @@ void Console::UpdateConsoleText(sf::Uint32 letter)
 void Console::ClearConsoleText()
 {
 	CurrentConsoleInput = "";
+	consoleText.setString(CurrentConsoleInput);
+}
+
+void Console::DeleteLetter()
+{
+	// pop_back will error otherwise, so stop if empty.
+	if (CurrentConsoleInput.size() == 0)
+		return;
+
+	CurrentConsoleInput.pop_back();
 	consoleText.setString(CurrentConsoleInput);
 }

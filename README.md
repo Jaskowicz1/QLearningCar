@@ -7,4 +7,12 @@ Might need to change the name as I'm heading towards Neural Networking, rather t
 Libraries Used:
 - SFML
 
+Commands:
+- ShowStats
+- ShowFPS
+- ShowCheckpoints
+
+Credits:
+- Nick Koirala, ahnonay, switchboy | collision (.cpp and .h)
+
 ![image](https://user-images.githubusercontent.com/46899449/193789791-0c15480c-3ad1-42bf-b217-eeaa2bf41136.png)

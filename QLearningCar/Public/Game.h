@@ -55,7 +55,7 @@ private:
 	sf::Sprite trackSprite;
 	sf::Sprite trackOutsideSprite;
 
-	Car* car;
+	std::unique_ptr<Car> car;
 	std::vector<Wall*> walls;
 	std::vector<Checkpoint*> Checkpoints;
 	std::vector<Checkpoint*> CheckpointsReached;

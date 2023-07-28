@@ -1,8 +1,8 @@
 #pragma once
-#include "Game.h"
+#include "Public/Game.h"
+#include <memory>
 
 namespace Main
 {
-
-	Game* game;
+	std::unique_ptr<Game> game;
 };

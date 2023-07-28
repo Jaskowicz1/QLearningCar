@@ -6,7 +6,7 @@ using namespace Main;
 
 int main()
 {
-    game = new Game();
+    game = std::make_unique<Game>();
 
     while (game->isRunning()) {
         game->update();

@@ -1,5 +1,5 @@
-#include "Game.h"
-#include "Collision.h"
+#include "../Public/Game.h"
+#include "../Public/Collision.h"
 
 void Game::initVariables()
 {
@@ -23,14 +23,14 @@ void Game::initVariables()
 
 void Game::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(1280, 720), "QLearning Car Project - Archie Jaskowicz");
+	this->window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Car Project - Archie Jaskowicz");
 	this->window->setFramerateLimit(144);
 	this->window->setVerticalSyncEnabled(false);
 }
 
 void Game::initCar()
 {
-	car = new Car();
+	car = std::make_unique<Car>();
 	clock.restart();
 }
 
@@ -148,9 +148,13 @@ void Game::pollEvents()
 					if (std::isprint(ev.text.unicode))
 					{
 						console->UpdateConsoleText(ev.text.unicode);
+						return;
 					}
 					else if (ev.text.unicode == 13) {
 						console->ExecuteCommand();
+					}
+					else if (ev.text.unicode == 8) {
+						console->DeleteLetter();
 					}
 				}
 				break;

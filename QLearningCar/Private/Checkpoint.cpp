@@ -1,6 +1,6 @@
-#include "Checkpoint.h"
+#include "../Public/Checkpoint.h"
 
-Checkpoint::Checkpoint(std::string FileName)
+Checkpoint::Checkpoint(const std::string& FileName)
 {
 	if (!checkpointTexture.loadFromFile(FileName)) {
 		// Throw error.

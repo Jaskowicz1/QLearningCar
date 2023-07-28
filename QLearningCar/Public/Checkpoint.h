@@ -6,7 +6,7 @@ class Checkpoint {
 
 public:
 
-	Checkpoint(std::string FileName);
+	Checkpoint(const std::string& FileName);
 
 	sf::Texture checkpointTexture;
 	sf::Sprite checkpointSprite;

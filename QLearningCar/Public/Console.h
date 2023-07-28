@@ -16,11 +16,13 @@ public:
 
 	void DisplayConsole(sf::RenderWindow* window);
 
-	void UpdateConsoleText(std::string letter);
+	void UpdateConsoleText(const std::string& letter);
 
 	void UpdateConsoleText(sf::Uint32 letter);
 
 	void ClearConsoleText();
+
+	void DeleteLetter();
 
 private:
 

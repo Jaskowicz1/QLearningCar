@@ -41,7 +41,7 @@ private:
 	bool moving = false;
 
 	float toRadians(float rotation) {
-		return rotation * (3.1415926535 / 180);
+		return rotation * (3.1415926535f / 180.f);
 	}
 
 };

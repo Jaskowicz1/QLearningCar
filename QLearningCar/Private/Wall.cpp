@@ -1,4 +1,4 @@
-#include "Wall.h"
+#include "../Public/Wall.h"
 #include <iostream>
 
 
