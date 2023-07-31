@@ -171,58 +171,60 @@ void Game::update()
 	this->pollEvents();
 	this->RenderStats();
 
-	if (car) {
-		if (console && !console->showConsole) {
-			this->car->doMovement();
+	if(!car)
+		return;
+
+	if (console && !console->showConsole) {
+		this->car->doMovement();
+	}
+
+	this->car->Update();
+
+	if (Collision::PixelPerfectTest(trackOutsideSprite, this->car->sprite)) {
+		car->sprite.setPosition(car->startX, car->startY);
+		car->sprite.setRotation(0);
+
+		for (Checkpoint* checkpoint : CheckpointsReached) {
+			checkpoint->reached = false;
 		}
 
-		this->car->Update();
+		clock.restart();
 
-		if (Collision::PixelPerfectTest(trackOutsideSprite, this->car->sprite)) {
-			car->sprite.setPosition(car->startX, car->startY);
-			car->sprite.setRotation(0);
+		CheckpointsReached.clear();
+	} else 
+	{
+		for (Checkpoint* checkpoint : Checkpoints) {
+
+			if (!Collision::PixelPerfectTest(checkpoint->checkpointSprite, this->car->sprite))
+				return;
+
+			if (!checkpoint->reached) {
+				CheckpointsReached.push_back(checkpoint);
+				checkpoint->reached = true;
+				return;
+			}
+
+			if(!checkpoint->StartFinish || CheckpointsReached.size() != Checkpoints.size())
+				return;
 
 			for (Checkpoint* checkpoint : CheckpointsReached) {
 				checkpoint->reached = false;
 			}
 
-			clock.restart();
-
-			CheckpointsReached.clear();
-		} else 
-		{
-			for (Checkpoint* checkpoint : Checkpoints) {
-				if (Collision::PixelPerfectTest(checkpoint->checkpointSprite, this->car->sprite)) {
-					if (!checkpoint->reached) {
-						CheckpointsReached.push_back(checkpoint);
-						checkpoint->reached = true;
-					} else 
-					{
-						if (checkpoint->StartFinish) {
-							if (CheckpointsReached.size() == Checkpoints.size()) {
-								for (Checkpoint* checkpoint : CheckpointsReached) {
-									checkpoint->reached = false;
-								}
-
-								if (fastestTime == 0 || fastestTime > clock.getElapsedTime().asSeconds()) {
-									fastestTime = clock.getElapsedTime().asSeconds();
-								}
-
-								lastTime = clock.getElapsedTime().asSeconds();
-
-								std::ofstream timesFile("times.txt");
-
-								timesFile << fastestTime << std::endl << lastTime << std::endl;
-
-								timesFile.close();
-
-								clock.restart();
-								CheckpointsReached.clear();
-							}
-						}
-					}
-				}
+			if (fastestTime == 0 || fastestTime > clock.getElapsedTime().asSeconds()) {
+				fastestTime = clock.getElapsedTime().asSeconds();
 			}
+
+			lastTime = clock.getElapsedTime().asSeconds();
+
+			std::ofstream timesFile("times.txt");
+
+			timesFile << fastestTime << std::endl << lastTime << std::endl;
+
+			timesFile.close();
+
+			clock.restart();
+			CheckpointsReached.clear();
 		}
 	}
 }
