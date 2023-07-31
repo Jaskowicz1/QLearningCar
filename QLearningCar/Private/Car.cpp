@@ -55,21 +55,20 @@ void Car::doMovement()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        //this->moveY -= .25;
-        this->speed -= .25;
+        this->speed -= .25f;
         this->moving = true;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        this->speed += .25;
+        this->speed += .25f;
         this->moving = true;
     }
     else {
         if (speed > 0) {
-            speed -= (.125 / 2);
+            speed -= .125f / 2;
         }
         else if (speed < 0) {
-            speed += (.125 / 2);
+            speed += .125f / 2;
         }
         else {
             speed = 0;
@@ -80,20 +79,20 @@ void Car::doMovement()
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        this->rotate -= .25;
+        this->rotate -= .25f;
         this->moving = true;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        this->rotate += .25;
+        this->rotate += .25f;
         this->moving = true;
     }
     else {
         if (rotate > 0) {
-            rotate -= .125 / 2;
+            rotate -= .125f / 2.f;
         }
         else if (rotate < 0) {
-            rotate += .125 / 2;
+            rotate += .125f / 2.f;
         }
         else {
             rotate = 0;
@@ -104,12 +103,12 @@ void Car::doMovement()
 
     speed = std::clamp(speed, minSpeed, maxSpeed);
 
-    float x = (float) cos(toRadians(sprite.getRotation() + 90));
-    float y = (float) sin(toRadians(sprite.getRotation() + 90));
+    // Rotate on circle.
+    float x = cos(toRadians(sprite.getRotation() + 90));
+    float y = sin(toRadians(sprite.getRotation() + 90));
 
     rotate = std::clamp(rotate, minRotation, maxRotation);
-
-    //sprite.move(sf::Vector2f(0, moveY));
+    
     sprite.move(x * speed, y * speed);
     sprite.rotate(rotate);
 

@@ -24,7 +24,10 @@ public:
 
 	void ProcessMouse();
 
-	const bool isRunning();
+	const bool isRunning()
+	{
+		return this->window->isOpen();
+	}
 
 	sf::Clock clock;
 

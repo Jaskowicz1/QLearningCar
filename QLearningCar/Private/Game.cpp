@@ -39,13 +39,13 @@ void Game::initWorld()
 	std::cout << "Loading world..." << std::endl;
 
 	if (!trackTexture.loadFromFile("RaceTrack.png")) {
-		// Throw error.
+		// Throw "error".
 		std::cout << "Can not load race track." << std::endl;
 		return;
 	}
 
 	if (!trackOutsideTexture.loadFromFile("RaceTrackOutside.png")) {
-		// Throw error.
+		// Throw "error".
 		std::cout << "Can not load the outside of the race track." << std::endl;
 		return;
 	}
@@ -96,6 +96,9 @@ Game::Game()
 	//this->initWalls();
 	this->initCheckpoints();
 
+	// Possibly move all this font stuff into a different function as it takes a lot of room
+	// and I'd like to minimise just this one area?
+
 	if(!font.loadFromFile("Arial.ttf"))
 	{
 		std::cout << "Can not load Arial font." << std::endl;
@@ -127,6 +130,7 @@ Game::Game()
 
 Game::~Game()
 {
+	// if game leaves scope, window dies (ending session).
 	delete this->window;
 }
 
@@ -257,7 +261,8 @@ void Game::render()
 			this->window->draw(checkpoint->checkpointSprite);
 		}
 	}
-	
+
+	// Do car drawing last so it's ALWAYS above the objects.
 	this->window->draw(this->car->sprite);
 
 	if (console->showConsole) {
@@ -277,39 +282,44 @@ void Game::RenderStats()
 
 void Game::ProcessMouse()
 {
-	if (SetWalls) {
-		if (wallPos1x == -999999) {
-			wallPos1x = sf::Mouse::getPosition(*window).x;
-			wallPos1y = sf::Mouse::getPosition(*window).y;
-		}
-		else {
-			wallPos2x = sf::Mouse::getPosition(*window).x;
-			wallPos2y = sf::Mouse::getPosition(*window).y;
-		}
+	if(!SetWalls)
+		return;
 
-		if (wallPos2y != -999999) {
-			float calc = sqrt((std::pow((wallPos2x - wallPos1x), 2) + std::pow((wallPos2y - wallPos1y), 2)));
-
-			std::ofstream wallsFile("walls.txt", std::ofstream::out | std::ofstream::app);
-
-			wallsFile << wallPos1x << "," << wallPos1y << "," << wallPos2x << "," << wallPos2y << std::endl;
-
-			walls.push_back(new Wall(sf::Vector2f(wallPos1x, wallPos1y), sf::Vector2f(wallPos2x, wallPos2y)));
-
-			wallsFile.close();
-		}
+	// if first wall is invalid, set the first wall and then stop.
+	if (wallPos1x == -999999)
+	{
+		wallPos1x = sf::Mouse::getPosition(*window).x;
+		wallPos1y = sf::Mouse::getPosition(*window).y;
+		
+		return;
 	}
-}
 
-const bool Game::isRunning()
-{
-	return this->window->isOpen();
+	// Because first wall is now valid, we can assume we want to set the second wall.
+	wallPos2x = sf::Mouse::getPosition(*window).x;
+	wallPos2y = sf::Mouse::getPosition(*window).y;
+
+	// Just in-case.
+	if(wallPos2y == -999999)
+		return;
+	
+	float calc = sqrt((std::pow((wallPos2x - wallPos1x), 2) + std::pow((wallPos2y - wallPos1y), 2)));
+
+	// We don't want to override the file, we want to append to the file.
+	std::ofstream wallsFile("walls.txt", std::ofstream::out | std::ofstream::app);
+
+	wallsFile << wallPos1x << "," << wallPos1y << "," << wallPos2x << "," << wallPos2y << std::endl;
+
+	walls.push_back(new Wall(sf::Vector2f(wallPos1x, wallPos1y), sf::Vector2f(wallPos2x, wallPos2y)));
+
+	wallsFile.close();
 }
 
 void Game::updateFPS() {
 	float fpsCounter = 1.f / fpsClock.restart().asSeconds();
-	fpsCounter = (int)(fpsCounter * 100 + .5);
-	fpsCounter = (float)(fpsCounter / 100);
+	// Make whole number as an int but keep as float.
+	fpsCounter = static_cast<int>(100 * fpsCounter + .5);
+	// now divide by 100 so we have it to 2 decimal places.
+	fpsCounter = (fpsCounter / 100);
 
 	if (fpsCounter > 40) {
 		fpsText.setFillColor(sf::Color::Green);
@@ -321,8 +331,7 @@ void Game::updateFPS() {
 		fpsText.setFillColor(sf::Color::Red);
 	}
 
-	int substringNum = fpsCounter >= 100 ? 6 : 5;
-	
-
-	fpsText.setString("FPS: " + std::to_string(fpsCounter).substr(0, substringNum));
+	// _count checks if fps is 100 or more and limits the amount of decimal places shown
+	// (22.25 will show as 22.250 if we stick to 6 as any further is 0 due to math above).s
+	fpsText.setString("FPS: " + std::to_string(fpsCounter).substr(0, fpsCounter >= 100 ? 6 : 5));
 }

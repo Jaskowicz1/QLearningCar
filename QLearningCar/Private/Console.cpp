@@ -28,6 +28,7 @@ void Console::ExecuteCommand()
 {
 	std::string CommandName = CurrentConsoleInput;
 
+	// This could get really out of hand (especially if there's a lot of commands).
 	for (Command* command : Commands) {
 		if (CommandName == command->getCommandName()) {
 			command->ProcessCommand();

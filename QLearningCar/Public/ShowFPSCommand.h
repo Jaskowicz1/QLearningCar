@@ -3,7 +3,7 @@
 #include "Game.h"
 #include <string>
 
-class ShowFPSCommand: public Command {
+class ShowFPSCommand : public Command {
 
 public:
 
